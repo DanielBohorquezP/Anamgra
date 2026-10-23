@@ -9,9 +9,11 @@ const SITE = D.site;
 const IG = [D.biz.ig];
 export const isVirtual = (s: Svc) => s.mode.startsWith("Virtual");
 
+const OG_DEFAULT = `${SITE}/og-default.png`;
+const IRINA_PHOTO = `${SITE}/assets/irina-2.jpg`;
 const ROBOTS = { index: true, follow: true, "max-image-preview": "large" as const };
 
-function meta(opts: { title: string; description: string; path: string; ogTitle?: string; ogDescription?: string; image?: string; type?: "website" | "profile" }): Metadata {
+function meta(opts: { title: string; description: string; path: string; ogTitle?: string; ogDescription?: string; image?: string; imageAlt?: string; type?: "website" | "profile" }): Metadata {
   const url = `${SITE}${opts.path}`;
   return {
     title: opts.title,
@@ -25,7 +27,13 @@ function meta(opts: { title: string; description: string; path: string; ogTitle?
       title: opts.ogTitle ?? opts.title,
       description: opts.ogDescription ?? opts.description,
       url,
-      images: [opts.image ?? `${SITE}/assets/logo.png`],
+      images: [{ url: opts.image ?? OG_DEFAULT, width: 1200, height: 630, alt: opts.imageAlt ?? "AnamGra Holistic Therapy · Orlando, FL" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: opts.ogTitle ?? opts.title,
+      description: opts.ogDescription ?? opts.description,
+      images: [opts.image ?? OG_DEFAULT],
     },
   };
 }
@@ -41,7 +49,8 @@ const businessNode = (virtual = true) => ({
   url: `${SITE}/`,
   telephone: D.biz.phone,
   email: D.biz.email,
-  image: `${SITE}/assets/logo.png`,
+  image: `${SITE}/og-default.png`,
+  logo: `${SITE}/assets/logo.png`,
   priceRange: "$85–$165",
   address: { "@type": "PostalAddress", addressLocality: D.biz.city, addressRegion: D.biz.region, addressCountry: D.biz.country },
   areaServed: virtual
@@ -55,6 +64,8 @@ const personNode = () => ({
   "@type": "Person",
   "@id": AUTHOR,
   name: D.author.name,
+  image: IRINA_PHOTO,
+  url: `${SITE}/irina-perez/`,
   jobTitle: "Fundadora y terapeuta holística de AnamGra",
   email: D.biz.email,
   sameAs: IG,
@@ -103,7 +114,8 @@ export const homeLd = () => ({
       url: `${SITE}/`,
       telephone: D.biz.phone,
       email: D.biz.email,
-      image: `${SITE}/assets/logo.png`,
+      image: [`${SITE}/og-default.png`, `${SITE}/assets/logo.png`],
+      logo: `${SITE}/assets/logo.png`,
       priceRange: "$85–$165",
       address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL", addressCountry: "US" },
       areaServed: [{ "@type": "City", name: "Orlando" }],
@@ -124,6 +136,8 @@ export const homeLd = () => ({
       "@type": "Person",
       "@id": AUTHOR,
       name: D.author.name,
+      image: IRINA_PHOTO,
+      url: `${SITE}/irina-perez/`,
       jobTitle: "Fundadora y terapeuta holística de AnamGra",
       worksFor: { "@id": BIZ },
       sameAs: IG,
@@ -141,15 +155,18 @@ export const irinaMeta = (): Metadata =>
       "Conoce a la Dra. Irina Pérez: médica con más de 20 años integrando medicina y terapias holísticas (Reiki, homeopatía, esencias florales, masaje terapéutico) en Orlando, Florida.",
     path: "/irina-perez/",
     ogTitle: "Dra. Irina Pérez · AnamGra Holistic Therapies",
-    image: `${SITE}/assets/irina-2.jpg`,
+    image: `${SITE}/og-irina.jpg`,
+    imageAlt: "Dra. Irina Pérez, médica y terapeuta holística en Orlando, FL",
     type: "profile",
   });
 
 export const irinaLd = () => ({
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": AUTHOR,
   name: "Irina Pérez",
-  image: `${SITE}/assets/irina-2.jpg`,
+  url: `${SITE}/irina-perez/`,
+  image: { "@type": "ImageObject", url: IRINA_PHOTO, width: 1086, height: 1448, caption: "Dra. Irina Pérez, médica y terapeuta holística" },
   honorificPrefix: "Dra.",
   jobTitle: "Médica y terapeuta holística",
   worksFor: { "@type": "Organization", name: "AnamGra Holistic Therapies" },

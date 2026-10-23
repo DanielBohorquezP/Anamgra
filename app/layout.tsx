@@ -17,7 +17,13 @@ export const metadata: Metadata = {
   description:
     "Reiki, reflexología, esencias florales, masajes y más en Orlando, FL y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
   robots: { index: true, follow: true, "max-image-preview": "large" },
-  openGraph: { type: "website", locale: "es_US", siteName: "AnamGra Holistic Therapy", images: ["/assets/logo.png"] },
+  openGraph: {
+    type: "website",
+    locale: "es_US",
+    siteName: "AnamGra Holistic Therapy",
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "AnamGra Holistic Therapy · Orlando, FL" }],
+  },
+  twitter: { card: "summary_large_image", images: ["/og-default.png"] },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
