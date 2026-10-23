@@ -34,9 +34,9 @@ export default function SiteHeader() {
           "position:relative;max-width:1280px;margin:0 auto;padding:0 28px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.5);border-radius:8px;box-shadow:rgba(17,3,102,0.08) 0px 10px 50px",
         )}
       >
-        <div style={s("height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px")}>
+        <div style={s("height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px")}>
           <div style={s(`display:flex;align-items:center;gap:26px;font-family:${UI};font-size:14px;letter-spacing:0.02em`)}>
-            <div className="nav-wide" style={s("align-items:center;gap:26px")}>
+            <div className="nav-wide" style={s("align-items:center;gap:30px")}>
               <Link href="/irina-perez/" className={link} style={s(linkCss)}>Sobre Irina</Link>
               <Link href="/#terapias" className={link} style={s(linkCss)}>Terapias</Link>
               <div

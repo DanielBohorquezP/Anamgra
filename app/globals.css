@@ -36,9 +36,10 @@ summary::-webkit-details-marker { display: none; }
 .card-hover:hover { transform: scale(1.02); color: #110366; }
 
 /* header: escritorio vs móvil */
-.nav-wide { display: flex; }
+.nav-wide { display: flex; white-space: nowrap; }
 .nav-narrow { display: none; }
-@media (max-width: 1059px) {
+.nav-link { white-space: nowrap; }
+@media (max-width: 1179px) {
   .nav-wide { display: none; }
   .nav-narrow { display: flex; }
 }
