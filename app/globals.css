@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #FEFAFF;
+  color: #110366;
+  font-family: var(--font-display), 'Gilda Display', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+a { color: #110366; text-decoration: none; }
+a:hover { color: #A56CF0; }
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
+
+@keyframes blur-in {
+  0% { opacity: 0; filter: blur(12px); transform: translateY(10px); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+.blur-in { animation: blur-in .9s ease-out both; }
+
+/* hovers (los prototipos usaban style-hover) */
+.btn-navy:hover { background: #2A1A85 !important; color: #FEFAFF !important; }
+.btn-ghost:hover { background: rgba(17,3,102,0.05) !important; color: #110366 !important; }
+.btn-ghost-light:hover { background: rgba(254,250,255,0.08) !important; color: #FEFAFF !important; }
+.btn-gold:hover { background: #FFD06B !important; color: #110366 !important; }
+.hv-purple:hover { color: #A56CF0 !important; }
+.hv-navy:hover { color: #110366 !important; }
+.hv-gold:hover { color: #FDBF3B !important; }
+.hv-lav:hover { background: #F3E9FC !important; color: #110366 !important; }
+.hv-lav2:hover { background: #EDE0FB !important; color: #110366 !important; }
+.hv-lav3:hover { background: rgba(243,233,252,0.62) !important; color: #110366 !important; }
+.hv-glass:hover { background: rgba(255,255,255,0.12) !important; color: #FEFAFF !important; }
+.card-hover { transition: transform .4s cubic-bezier(.4,0,.2,1); }
+.card-hover:hover { transform: scale(1.02); color: #110366; }
+
+/* header: escritorio vs móvil */
+.nav-wide { display: flex; }
+.nav-narrow { display: none; }
+@media (max-width: 1059px) {
+  .nav-wide { display: none; }
+  .nav-narrow { display: flex; }
+}
+@media (max-width: 520px) {
+  .cta-header { padding: 10px 14px !important; font-size: 12px !important; }
+  .logo-header { font-size: 28px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blur-in { animation: none; }
+}
