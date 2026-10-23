@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   description:
     "Reiki, reflexología, esencias florales, masajes y más en Orlando, FL y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
   robots: { index: true, follow: true, "max-image-preview": "large" },
+  verification: { google: "zdEL2VNzA-YOVNzIjrb0fYgbXoxvnHHltUQJA06PmOQ" },
   openGraph: {
     type: "website",
     locale: "es_US",
