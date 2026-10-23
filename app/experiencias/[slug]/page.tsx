@@ -46,7 +46,7 @@ export default async function ExperienciaPage({ params }: Props) {
           <div style={s("display:flex;flex-direction:column;align-items:center;text-align:center")}>
             <img src={badge(p.badge)} alt="" style={s("height:72px;width:auto;object-fit:contain;margin-bottom:18px")} />
             <span style={s(`font-family:${UI};font-size:13px;letter-spacing:0.3em;text-transform:uppercase;color:#A56CF0`)}>Experiencia · AnamGra Holistic Therapy</span>
-            <h1 style={s("margin:14px 0 0;font-weight:400;font-size:clamp(44px,7vw,84px);line-height:1.02;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance")}>Experiencia {p.name}</h1>
+            <h1 style={s("margin:14px 0 0;font-weight:400;font-size:clamp(32px,8.6vw,84px);line-height:1.04;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance")}>Experiencia {p.name}</h1>
             <p style={s("margin:24px 0 0;background:#110366;color:#FEFAFF;border-radius:999px;padding:16px 40px;font-size:clamp(20px,2.6vw,28px);line-height:1.3")}>{p.tagline}</p>
             <p style={s("margin:24px auto 0;max-width:640px;font-size:clamp(19px,2vw,23px);line-height:1.5")}>{p.desc}</p>
           </div>
@@ -56,7 +56,7 @@ export default async function ExperienciaPage({ params }: Props) {
               <div style={s("font-size:clamp(22px,2.6vw,28px);text-transform:uppercase;line-height:1.15")}>Experiencia {p.name}</div>
               <div style={s("font-size:19px;margin-top:6px;color:#3A2E80")}>{p.incl}</div>
             </div>
-            <div style={s("display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 30px;border-left:1px solid rgba(253,191,59,0.7)")}>
+            <div className="price-row" style={s("display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 30px;border-left:1px solid rgba(253,191,59,0.7)")}>
               <div>
                 <div style={s("font-size:46px;line-height:1")}>${p.price}</div>
                 <div style={s("font-size:20px;margin-top:4px")}>{p.duration} minutos</div>
@@ -81,7 +81,7 @@ export default async function ExperienciaPage({ params }: Props) {
           <p style={s(`margin:6px 0 48px;text-align:center;font-family:${SCRIPT};font-size:clamp(30px,3.6vw,42px)`)}>paso a paso</p>
           <ol style={s("list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:12px")}>
             {p.steps.map((st, i) => (
-              <li key={st.name} style={s("display:flex;align-items:flex-start;gap:12px")}>
+              <li key={st.name} className="step-li" style={s("display:flex;align-items:flex-start;gap:12px")}>
                 {i > 0 && <span aria-hidden="true" style={s(`font-family:${UI};font-weight:300;font-size:56px;line-height:1;color:#FDBF3B;margin-top:34px`)}>+</span>}
                 <div style={s("width:220px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:10px")}>
                   <img src={iconSrc(st.icon)} alt="" width={120} height={130} style={s("width:120px;height:130px;object-fit:contain")} />
@@ -119,7 +119,7 @@ export default async function ExperienciaPage({ params }: Props) {
             <div style={s(`font-family:${UI};font-size:12px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.75;margin-bottom:10px`)}>Datos clave</div>
             <dl style={s("margin:0")}>
               {facts.map(([k, v]) => (
-                <div key={k} style={s("display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.14)")}>
+                <div key={k} className="dl-row" style={s("display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.14)")}>
                   <dt style={s(`font-family:${UI};font-size:12px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;padding-top:3px`)}>{k}</dt>
                   <dd style={s("margin:0;font-size:18px;line-height:1.35")}>{v}</dd>
                 </div>
@@ -134,13 +134,13 @@ export default async function ExperienciaPage({ params }: Props) {
           <h2 style={s("margin:0 0 28px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Otras experiencias</h2>
           <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px")}>
             {others.map((o) => (
-              <A key={o.slug} href={planHref(o.slug)} cls="card-hover" css="display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;padding:24px;border-radius:22px;background:#FEFAFF;border:1.5px solid #110366;color:#110366">
+              <A key={o.slug} href={planHref(o.slug)} cls="card-hover plan-link" css="display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;padding:24px;border-radius:22px;background:#FEFAFF;border:1.5px solid #110366;color:#110366">
                 <img src={badge(o.badge)} alt="" style={s("width:64px;height:56px;object-fit:contain")} />
                 <div>
                   <div style={s("font-size:24px;text-transform:uppercase;line-height:1.1")}>{o.name}</div>
                   <div style={s(`font-family:${UI};font-size:13px;color:rgba(17,3,102,0.7);margin-top:4px`)}>{o.incl}</div>
                 </div>
-                <div style={s("text-align:right")}>
+                <div className="plan-price" style={s("text-align:right")}>
                   <div style={s("font-size:32px;line-height:1")}>${o.price}</div>
                   <div style={s(`font-family:${UI};font-size:12px;margin-top:4px`)}>{o.duration} min</div>
                 </div>

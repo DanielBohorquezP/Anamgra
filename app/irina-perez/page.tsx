@@ -86,7 +86,7 @@ export default function IrinaPage() {
 
       <section style={s("position:relative;padding:100px 24px;background:#110366;color:#FEFAFF")}>
         <div style={s("max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:56px;align-items:start")}>
-          <div style={s("position:sticky;top:120px")}>
+          <div className="sticky-col">
             <Eyebrow color="#FDBF3B">¿Cómo llegué a las terapias holísticas?</Eyebrow>
             <h2 style={s(h2Css)}>Una historia que transformó mi camino</h2>
             <div style={s("position:relative;margin-top:40px;max-width:360px;aspect-ratio:3/4;border-radius:999px 999px 24px 24px;overflow:hidden;border:2px solid #FDBF3B")}>

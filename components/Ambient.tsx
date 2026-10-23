@@ -230,7 +230,8 @@ export default function Ambient() {
       const W = () => window.innerWidth;
       const H = () => window.innerHeight;
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const small = window.innerWidth < 768;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2));
       renderer.setSize(W(), H());
       renderer.setClearColor(0x000000, 0);
       renderer.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block";
@@ -294,7 +295,7 @@ export default function Ambient() {
       cx.fillRect(0, 0, 64, 64);
       const tex = new THREE.CanvasTexture(dot);
 
-      const N = 420;
+      const N = small ? 200 : 420;
       const pos = new Float32Array(N * 3);
       const seeds = new Float32Array(N);
       for (let i = 0; i < N; i++) {

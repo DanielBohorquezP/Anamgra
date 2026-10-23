@@ -30,11 +30,12 @@ export default function SiteHeader() {
     <header style={s("position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 16px 0")}>
       <nav
         aria-label="Principal"
+        className="nav-shell"
         style={s(
           "position:relative;max-width:1280px;margin:0 auto;padding:0 28px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.5);border-radius:8px;box-shadow:rgba(17,3,102,0.08) 0px 10px 50px",
         )}
       >
-        <div style={s("height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px")}>
+        <div className="nav-row" style={s("height:68px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:32px")}>
           <div style={s(`display:flex;align-items:center;gap:26px;font-family:${UI};font-size:14px;letter-spacing:0.02em`)}>
             <div className="nav-wide" style={s("align-items:center;gap:30px")}>
               <Link href="/irina-perez/" className={link} style={s(linkCss)}>Sobre Irina</Link>
@@ -105,7 +106,8 @@ export default function SiteHeader() {
               className="pill btn-navy cta-header"
               style={s(`display:inline-flex;align-items:center;gap:10px;background:#110366;color:#FEFAFF;padding:11px 22px;border-radius:999px;font-family:${UI};font-size:13px;letter-spacing:0.04em;white-space:nowrap`)}
             >
-              Agenda tu cita
+              <span className="cta-long">Agenda tu cita</span>
+              <span className="cta-short">Agendar</span>
             </a>
           </div>
         </div>

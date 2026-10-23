@@ -87,7 +87,7 @@ export default function Home() {
       <JsonLd data={homeLd()} />
 
       {/* HERO */}
-      <section id="inicio" style={s("position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:130px 24px 80px")}>
+      <section id="inicio" style={s("position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:130px 24px 80px")}>
         <div className="blob" style={s("position:absolute;top:-120px;left:-160px;width:520px;height:520px;border-radius:50%;background:#D8C7FA;opacity:0.45;filter:blur(2px)")} />
         {/* eslint-disable @next/next/no-img-element */}
         <img src="/assets/orchid.png" alt="" style={s("position:absolute;top:0;right:0;width:min(280px,30vw);pointer-events:none")} />
@@ -184,7 +184,7 @@ export default function Home() {
             <h2 style={s("margin:0;font-weight:400;font-size:clamp(44px,7vw,84px);line-height:1.05")}>Experiencias</h2>
             <p style={s("margin:14px auto 0;max-width:620px;font-size:20px;line-height:1.5;color:#3A2E80")}>Sesiones que combinan varias terapias en un solo encuentro, pensadas para equilibrar cuerpo, mente, emociones y energía.</p>
           </div>
-          <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:24px;align-items:stretch")}>
+          <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:24px;align-items:stretch")}>
             {planCards.map((pl) => (
               <article key={pl.slug} style={s(`display:flex;flex-direction:column;border-radius:28px;padding:36px 32px;background:${pl.bg};color:${pl.fg};border:${pl.border};box-shadow:rgba(17,3,102,0.06) 0px 24px 48px -16px`)}>
                 <div style={s("display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px")}>
@@ -299,13 +299,13 @@ export default function Home() {
           <p style={s(`margin:0 auto 48px;font-family:${SCRIPT};font-size:clamp(30px,3.6vw,42px)`)}>Un espacio para volver a ti.</p>
           <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;text-align:left")}>
             {contacts.map((ct) => (
-              <A key={ct.label} href={ct.href} cls="hv-lav3" css="display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;padding:22px 24px;border-radius:20px;background:#FEFAFF;border:1.5px solid #110366;color:#110366;transition:all .4s cubic-bezier(.4,0,.2,1)">
-                <div style={s("width:56px;height:56px;border-radius:50%;background:#D8C7FA;display:flex;align-items:center;justify-content:center")}>
+              <A key={ct.label} href={ct.href} cls="hv-lav3 contact-card" css="display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:center;padding:22px 24px;border-radius:20px;background:#FEFAFF;border:1.5px solid #110366;color:#110366;transition:all .4s cubic-bezier(.4,0,.2,1)">
+                <div className="contact-ico" style={s("width:56px;height:56px;border-radius:50%;background:#D8C7FA;display:flex;align-items:center;justify-content:center")}>
                   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#110366" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d={ct.path} /></svg>
                 </div>
                 <div>
                   <div style={s(`font-family:${UI};font-size:12px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7`)}>{ct.label}</div>
-                  <div style={s("font-size:21px;line-height:1.25;margin-top:3px;word-break:break-word")}>{ct.value}</div>
+                  <div className="contact-val" style={s("font-size:21px;line-height:1.25;margin-top:3px;overflow-wrap:anywhere")}>{ct.value}</div>
                 </div>
               </A>
             ))}

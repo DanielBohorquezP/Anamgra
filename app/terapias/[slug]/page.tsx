@@ -60,7 +60,7 @@ export default async function ServicioPage({ params }: Props) {
           <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:start")}>
             <div>
               <Eyebrow css="margin-bottom:16px">Terapias {sv.cat}</Eyebrow>
-              <h1 style={s("margin:0;font-weight:400;font-size:clamp(44px,6.5vw,80px);line-height:1.02;text-wrap:balance")}>{sv.name} {where}</h1>
+              <h1 style={s("margin:0;font-weight:400;font-size:clamp(38px,6.5vw,80px);line-height:1.04;text-wrap:balance")}>{sv.name} {where}</h1>
               <p style={s(`margin:10px 0 0;font-family:${SCRIPT};font-size:clamp(28px,3.4vw,40px);line-height:1.2`)}>Complementarias e integrativas</p>
               <div style={s(`margin-top:30px;padding:24px 26px;${GLASS};border-radius:20px;border:1px solid rgba(17,3,102,0.12)`)}>
                 <h2 style={s(`margin:0 0 10px;font-family:${UI};font-weight:500;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#A56CF0`)}>¿Qué es {sv.name}?</h2>
@@ -75,8 +75,8 @@ export default async function ServicioPage({ params }: Props) {
               </p>
             </div>
             <aside aria-label="Datos clave" style={s("background:#110366;color:#FEFAFF;border-radius:28px;padding:34px 32px;box-shadow:rgba(17,3,102,0.18) 0 30px 60px -20px")}>
-              <div style={s("display:flex;align-items:center;gap:18px;margin-bottom:24px")}>
-                <div style={s("width:96px;height:96px;border-radius:50%;background:#FEFAFF;display:flex;align-items:center;justify-content:center;flex-shrink:0")}>
+              <div className="facts-head" style={s("display:flex;align-items:center;gap:18px;margin-bottom:24px")}>
+                <div className="facts-ico" style={s("width:96px;height:96px;border-radius:50%;background:#FEFAFF;display:flex;align-items:center;justify-content:center;flex-shrink:0")}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={iconSrc(sv.icon)} alt={`Ícono de ${sv.name}`} width={90} height={90} style={s("width:90px;height:90px;object-fit:contain")} />
                 </div>
@@ -87,7 +87,7 @@ export default async function ServicioPage({ params }: Props) {
               </div>
               <dl style={s("margin:0;display:grid;gap:0")}>
                 {facts.map(([k, v]) => (
-                  <div key={k} style={s("display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.14)")}>
+                  <div key={k} className="dl-row" style={s("display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.14)")}>
                     <dt style={s(`font-family:${UI};font-size:12px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;padding-top:3px`)}>{k}</dt>
                     <dd style={s("margin:0;font-size:18px;line-height:1.35")}>{v}</dd>
                   </div>

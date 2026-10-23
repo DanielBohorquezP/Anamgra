@@ -40,8 +40,9 @@ export default function TherapyTabs({ groups }: { groups: Group[] }) {
               role="tab"
               aria-selected={i === cat}
               onClick={() => pick(i)}
+              className="tab-btn"
               style={s(
-                `position:relative;z-index:1;border:none;background:transparent;cursor:pointer;padding:11px 26px;border-radius:999px;font-family:${UI};font-size:14px;font-weight:500;white-space:nowrap;color:${i === cat ? "#FEFAFF" : "rgba(17,3,102,0.6)"};transition:color .3s`,
+                `position:relative;z-index:1;border:none;background:transparent;cursor:pointer;border-radius:999px;font-family:${UI};font-weight:500;color:${i === cat ? "#FEFAFF" : "rgba(17,3,102,0.6)"};transition:color .3s`,
               )}
             >
               {g.label}
