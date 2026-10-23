@@ -94,9 +94,9 @@ const webPage = (path: string, name: string) => ({
 /* ---------- Inicio ---------- */
 export const homeMeta = (): Metadata => ({
   ...meta({
-    title: "Terapias holísticas en Orlando, FL | AnamGra Holistic Therapy",
+    title: "Terapias holísticas y Reiki en Orlando, FL | AnamGra",
     description:
-      "Reiki, reflexología, esencias florales, masajes y más en Orlando, FL y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
+      "Reiki, reflexología, esencias florales, homeopatía y masajes con la Dra. Irina Pérez en Orlando, FL y online. Agenda tu cita por WhatsApp.",
     path: "/",
     ogTitle: "AnamGra Holistic Therapy · Orlando, FL",
     ogDescription: "Donde el amor del alma acompaña tu camino hacia el bienestar.",
@@ -150,7 +150,7 @@ export const homeLd = () => ({
 /* ---------- Sobre Irina ---------- */
 export const irinaMeta = (): Metadata =>
   meta({
-    title: "Dra. Irina Pérez · Médica y terapeuta holística en Orlando | AnamGra",
+    title: "Dra. Irina Pérez: médica y terapeuta holística en Orlando",
     description:
       "Conoce a la Dra. Irina Pérez: médica con más de 20 años integrando medicina y terapias holísticas (Reiki, homeopatía, esencias florales, masaje terapéutico) en Orlando, Florida.",
     path: "/irina-perez/",
@@ -192,10 +192,50 @@ function snippet(answer: string) {
   return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
 }
 
-export const serviceMeta = (sv: Svc): Metadata => {
+/* Títulos y descriptions afinados por volumen de búsqueda (Ubersuggest); el resto usa la plantilla. */
+const SERVICE_SEO: Record<string, { title: string; description: string }> = {
+  reiki: {
+    title: "Reiki en Orlando y online: sesión con la Dra. Irina Pérez",
+    description: "Sesión de Reiki en Orlando, FL o por videollamada: relajación y equilibrio con la Dra. Irina Pérez. 60 minutos, con cita previa. Reserva por WhatsApp.",
+  },
+  cupping: {
+    title: "Cupping (ventosas) presencial en Orlando, FL | AnamGra",
+    description: "Cupping con ventosas presencial en Orlando, FL: alivia la tensión muscular con una técnica corporal personalizada. Sesión de 60 min con cita previa.",
+  },
+  homeopatia: {
+    title: "Homeopatía en Orlando y online: consulta médica | AnamGra",
+    description: "Consulta de homeopatía en Orlando y online con una médica: tratamiento individualizado según tus características. Agenda por WhatsApp.",
+  },
+  reflexologia: {
+    title: "Reflexología podal presencial en Orlando, FL | AnamGra",
+    description: "Reflexología podal presencial en Orlando, FL: masaje de puntos del pie para relajación y bienestar general. 60 minutos con cita previa.",
+  },
+  "masaje-terapeutico": {
+    title: "Masaje terapéutico en Orlando, FL: alivia tensión | AnamGra",
+    description: "Masaje terapéutico en Orlando, FL para aliviar tensión muscular y mejorar la movilidad. Sesiones personalizadas con cita previa.",
+  },
+  "masaje-prenatal": {
+    title: "Masaje prenatal en Orlando, FL | AnamGra",
+    description: "Masaje prenatal en Orlando, FL: suave y especializado para aliviar el cansancio y las molestias del embarazo. Consulta con tu médico y agenda.",
+  },
+  "piedras-calientes": {
+    title: "Masaje con piedras calientes en Orlando, FL | AnamGra",
+    description: "Masaje con piedras calientes en Orlando, FL: calor, relajación y una experiencia corporal profundamente reconfortante. Con cita previa.",
+  },
+};
+
+const serviceSeo = (sv: Svc) => {
   const where = isVirtual(sv) ? "en Orlando, FL y online" : "en Orlando, FL";
-  const title = `${sv.name} ${where} | AnamGra Holistic Therapy`;
-  const description = `${sv.name} ${where}. ${snippet(sv.answer)}`;
+  return (
+    SERVICE_SEO[sv.slug] ?? {
+      title: `${sv.name} ${where} | AnamGra Holistic Therapy`,
+      description: `${sv.name} ${where}. ${snippet(sv.answer)}`,
+    }
+  );
+};
+
+export const serviceMeta = (sv: Svc): Metadata => {
+  const { title, description } = serviceSeo(sv);
   return meta({ title, description, path: `/terapias/${sv.slug}/` });
 };
 
@@ -203,7 +243,7 @@ export const serviceLd = (sv: Svc) => {
   const virtual = isVirtual(sv);
   const where = virtual ? "en Orlando, FL y online" : "en Orlando, FL";
   const path = `/terapias/${sv.slug}/`;
-  const title = `${sv.name} ${where} | AnamGra Holistic Therapy`;
+  const title = serviceSeo(sv).title;
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -217,7 +257,12 @@ export const serviceLd = (sv: Svc) => {
         description: sv.answer,
         provider: { "@id": BIZ },
         areaServed: businessNode(virtual).areaServed,
-        availableChannel: { "@type": "ServiceChannel", serviceUrl: D.biz.wa, servicePhone: D.biz.phone },
+        availableChannel: {
+          "@type": "ServiceChannel",
+          serviceUrl: D.biz.wa,
+          servicePhone: D.biz.phone,
+          ...(virtual ? {} : { serviceLocation: { "@type": "Place", name: "AnamGra Holistic Therapy", address: { "@type": "PostalAddress", addressLocality: D.biz.city, addressRegion: D.biz.region, addressCountry: D.biz.country } } }),
+        },
       },
       faqNode([...sv.faqs, ...D.commonFaqs]),
       crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/#terapias`], [sv.name, `${SITE}${path}`]]),
@@ -274,7 +319,7 @@ export const planLd = (p: Plan) => {
 /* ---------- Blog ---------- */
 export const blogMeta = (): Metadata =>
   meta({
-    title: "Blog de bienestar holístico | AnamGra Holistic Therapy, Orlando",
+    title: "Blog de terapias holísticas y bienestar | AnamGra",
     description: "Artículos sobre Reiki, reflexología, esencias florales, masaje prenatal y terapias complementarias, escritos por la Dra. Irina Pérez.",
     path: "/blog/",
   });
@@ -298,7 +343,7 @@ export const blogLd = () => ({
 });
 
 export const postMeta = (p: Post): Metadata =>
-  meta({ title: `${p.title} | Blog AnamGra`, description: p.excerpt, path: `/blog/${p.slug}/` });
+  meta({ title: p.seoTitle, description: p.excerpt, path: `/blog/${p.slug}/` });
 
 export const postLd = (p: Post) => {
   const path = `/blog/${p.slug}/`;
@@ -318,6 +363,7 @@ export const postLd = (p: Post) => {
         mainEntityOfPage: `${SITE}${path}`,
         inLanguage: "es",
         articleSection: p.cat,
+        citation: p.sources.map(([name, url]) => ({ "@type": "CreativeWork", name, url })),
       },
       crumbs([["Inicio", `${SITE}/`], ["Blog", `${SITE}/blog/`], [p.title, `${SITE}${path}`]]),
     ],

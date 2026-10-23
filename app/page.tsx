@@ -99,7 +99,7 @@ export default function Home() {
           </div>
           <div style={s("display:flex;align-items:center;gap:20px;margin-top:10px;width:100%;max-width:640px")}>
             <span style={s("flex:1 1 40px;min-width:0;height:1px;background:#FDBF3B")} />
-            <h1 style={s("margin:0;font-weight:400;font-size:clamp(32px,6vw,64px);line-height:1.1;letter-spacing:0.01em;white-space:nowrap")}>Holistic Therapy</h1>
+            <h1 style={s("margin:0;font-weight:400;font-size:clamp(28px,4.8vw,52px);line-height:1.12;letter-spacing:0.01em;text-align:center;text-wrap:balance")}>Terapias holísticas en Orlando</h1>
             <span style={s("flex:1 1 40px;min-width:0;height:1px;background:#FDBF3B")} />
           </div>
           <img src="/assets/lotus.png" alt="" style={s("width:64px;margin-top:10px")} />

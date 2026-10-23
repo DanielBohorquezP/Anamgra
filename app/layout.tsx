@@ -13,7 +13,7 @@ const ui = DM_Sans({ weight: ["300", "400", "500", "600"], subsets: ["latin"], v
 
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.site),
-  title: "Terapias holísticas en Orlando, FL | AnamGra Holistic Therapy",
+  title: "Terapias holísticas y Reiki en Orlando, FL | AnamGra",
   description:
     "Reiki, reflexología, esencias florales, masajes y más en Orlando, FL y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
   robots: { index: true, follow: true, "max-image-preview": "large" },

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { DATA as D } from "@/lib/data";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -6,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "*", allow: "/" },
       { userAgent: ["GPTBot", "OAI-SearchBot", "PerplexityBot", "Google-Extended", "ClaudeBot"], allow: "/" },
     ],
-    sitemap: "https://anamgra.com/sitemap.xml",
+    sitemap: `${D.site}/sitemap.xml`,
   };
 }
