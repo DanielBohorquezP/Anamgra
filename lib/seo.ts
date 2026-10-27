@@ -54,8 +54,8 @@ const businessNode = (virtual = true) => ({
   priceRange: "$85–$165",
   address: { "@type": "PostalAddress", addressLocality: D.biz.city, addressRegion: D.biz.region, addressCountry: D.biz.country },
   areaServed: virtual
-    ? [{ "@type": "City", name: "Orlando" }, { "@type": "Country", name: "Estados Unidos (atención virtual)" }]
-    : [{ "@type": "City", name: "Orlando" }],
+    ? [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }, { "@type": "Country", name: "Estados Unidos (atención virtual)" }]
+    : [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }],
   sameAs: IG,
   founder: { "@id": AUTHOR },
 });
@@ -94,9 +94,9 @@ const webPage = (path: string, name: string) => ({
 /* ---------- Inicio ---------- */
 export const homeMeta = (): Metadata => ({
   ...meta({
-    title: "Terapias holísticas y Reiki en Orlando, FL | AnamGra",
+    title: "Masaje terapéutico y Reiki en Orlando y Davenport | AnamGra",
     description:
-      "Reiki, reflexología, esencias florales, homeopatía y masajes con la Dra. Irina Pérez en Orlando, FL y online. Agenda tu cita por WhatsApp.",
+      "Reiki, reflexología, esencias florales, homeopatía y masaje terapéutico con la Dra. Irina Pérez en Orlando, Davenport y online. Agenda tu cita por WhatsApp.",
     path: "/",
     ogTitle: "AnamGra Holistic Therapy · Orlando, FL",
     ogDescription: "Donde el amor del alma acompaña tu camino hacia el bienestar.",
@@ -118,7 +118,7 @@ export const homeLd = () => ({
       logo: `${SITE}/assets/logo.png`,
       priceRange: "$85–$165",
       address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL", addressCountry: "US" },
-      areaServed: [{ "@type": "City", name: "Orlando" }],
+      areaServed: [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }],
       sameAs: IG,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -211,12 +211,12 @@ const SERVICE_SEO: Record<string, { title: string; description: string }> = {
     description: "Reflexología podal presencial en Orlando, FL: masaje de puntos del pie para relajación y bienestar general. 60 minutos con cita previa.",
   },
   "masaje-terapeutico": {
-    title: "Masaje terapéutico en Orlando, FL: alivia tensión | AnamGra",
-    description: "Masaje terapéutico en Orlando, FL para aliviar tensión muscular y mejorar la movilidad. Sesiones personalizadas con cita previa.",
+    title: "Masaje terapéutico en Orlando y Davenport, FL | AnamGra",
+    description: "Masaje terapéutico en Orlando y Davenport, FL para aliviar tensión muscular y mejorar la movilidad. Sesiones personalizadas con cita previa.",
   },
   "masaje-prenatal": {
-    title: "Masaje prenatal en Orlando, FL | AnamGra",
-    description: "Masaje prenatal en Orlando, FL: suave y especializado para aliviar el cansancio y las molestias del embarazo. Consulta con tu médico y agenda.",
+    title: "Masaje prenatal en Orlando y Davenport, FL | AnamGra",
+    description: "Masaje prenatal en Orlando y Davenport, FL: suave y especializado para aliviar el cansancio y las molestias del embarazo. Consulta con tu médico y agenda.",
   },
   "piedras-calientes": {
     title: "Masaje con piedras calientes en Orlando, FL | AnamGra",

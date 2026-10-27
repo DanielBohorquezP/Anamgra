@@ -13,9 +13,9 @@ const ui = DM_Sans({ weight: ["300", "400", "500", "600"], subsets: ["latin"], v
 
 export const metadata: Metadata = {
   metadataBase: new URL(DATA.site),
-  title: "Terapias holísticas y Reiki en Orlando, FL | AnamGra",
+  title: "Masaje terapéutico y Reiki en Orlando y Davenport | AnamGra",
   description:
-    "Reiki, reflexología, esencias florales, masajes y más en Orlando, FL y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
+    "Reiki, reflexología, esencias florales, masaje terapéutico y más en Orlando, Davenport y online. Citas virtuales y presenciales con cita previa. Agenda por WhatsApp.",
   robots: { index: true, follow: true, "max-image-preview": "large" },
   verification: { google: "zdEL2VNzA-YOVNzIjrb0fYgbXoxvnHHltUQJA06PmOQ" },
   openGraph: {
