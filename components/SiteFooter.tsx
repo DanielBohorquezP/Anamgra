@@ -55,6 +55,12 @@ export default function SiteFooter() {
         <p style={s(`margin:0;font-family:${UI};font-size:13px;opacity:0.6`)}>
           © 2026 AnamGra Holistic Therapy. Estas sesiones son un acompañamiento de bienestar integral y no sustituyen la atención médica de urgencias.
         </p>
+        <p style={s(`margin:10px 0 0;font-family:${UI};font-size:13px;opacity:0.6`)}>
+          Desarrollo y SEO por{" "}
+          <a href="https://www.oppi.digital/" target="_blank" rel="noopener" style={s("color:inherit;border-bottom:1px solid rgba(254,250,255,0.5)")}>
+            Oppi
+          </a>
+        </p>
       </div>
     </footer>
   );
