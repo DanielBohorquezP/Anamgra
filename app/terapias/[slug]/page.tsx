@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DATA } from "@/lib/data";
 import { isVirtual, serviceLd, serviceMeta } from "@/lib/seo";
-import { A, AuthorCard, Crumbs, CtaBanner, Eyebrow, Faq, JsonLd, WA, iconSrc, planHref, postHref, s, SCRIPT, UI, serviceHref } from "@/components/ui";
+import { A, AuthorCard, Crumbs, CtaBanner, Eyebrow, Faq, JsonLd, WA, iconSrc, linkify, planHref, postHref, s, SCRIPT, UI, serviceHref } from "@/components/ui";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -45,6 +45,8 @@ export default async function ServicioPage({ params }: Props) {
     ["4", "Integra la experiencia", "Recibe recomendaciones para continuar tu proceso de bienestar en el día a día."],
   ];
   const related = DATA.services.filter((x) => x.cat === sv.cat && x.slug !== sv.slug);
+  const others = DATA.services.filter((x) => x.cat !== sv.cat);
+  const offers = plans.length ? plans : DATA.plans.map((p) => ({ name: p.name, slug: p.slug, price: `$${p.price}`, dur: `${p.duration} minutos`, incl: p.incl }));
   const posts = DATA.posts.filter((p) => p.related.includes(sv.slug));
 
   return (
@@ -56,7 +58,7 @@ export default async function ServicioPage({ params }: Props) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/orchid.png" alt="" style={s("position:absolute;top:0;right:0;width:min(240px,24vw);pointer-events:none;opacity:0.9")} />
         <div style={s("position:relative;max-width:1180px;margin:0 auto")}>
-          <Crumbs items={[{ name: "Inicio", href: "/" }, { name: "Terapias", href: "/#terapias" }, { name: sv.name }]} />
+          <Crumbs items={[{ name: "Inicio", href: "/" }, { name: "Terapias", href: "/terapias/" }, { name: sv.name }]} />
           <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:start")}>
             <div>
               <Eyebrow css="margin-bottom:16px">Terapias {sv.cat}</Eyebrow>
@@ -64,7 +66,7 @@ export default async function ServicioPage({ params }: Props) {
               <p style={s(`margin:10px 0 0;font-family:${SCRIPT};font-size:clamp(28px,3.4vw,40px);line-height:1.2`)}>Complementarias e integrativas</p>
               <div style={s(`margin-top:30px;padding:24px 26px;${GLASS};border-radius:20px;border:1px solid rgba(17,3,102,0.12)`)}>
                 <h2 style={s(`margin:0 0 10px;font-family:${UI};font-weight:500;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#A56CF0`)}>¿Qué es {sv.name}?</h2>
-                <p style={s("margin:0;font-size:20px;line-height:1.55;text-wrap:pretty")}>{sv.answer}</p>
+                <p style={s("margin:0;font-size:20px;line-height:1.55;text-wrap:pretty")}>{linkify(sv.answer, new Set(), serviceHref(sv.slug))}</p>
               </div>
               <div style={s(`display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;font-family:${UI}`)}>
                 <A href={WA} pill cls="btn-navy" css="display:inline-flex;align-items:center;gap:10px;background:#110366;color:#FEFAFF;padding:16px 30px;border-radius:999px;font-size:14px;letter-spacing:0.04em;white-space:nowrap">Agenda {sv.name} por WhatsApp →</A>
@@ -152,13 +154,13 @@ export default async function ServicioPage({ params }: Props) {
         </div>
       </section>
 
-      {plans.length > 0 && (
+      {(
         <section style={s("padding:0 24px 100px")}>
           <div style={s("max-width:1180px;margin:0 auto;border-radius:28px;background:#110366;color:#FEFAFF;padding:48px 40px")}>
-            <h2 style={s("margin:0 0 6px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Inclúyelo en una experiencia</h2>
-            <p style={s(`margin:0 0 28px;font-family:${SCRIPT};font-size:32px;color:#FDBF3B`)}>Tu bienestar integral, en un solo plan</p>
+            <h2 style={s("margin:0 0 6px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>{plans.length ? "Inclúyelo en una experiencia" : "Descubre nuestras experiencias"}</h2>
+            <p style={s(`margin:0 0 28px;font-family:${SCRIPT};font-size:32px;color:#FDBF3B`)}>{plans.length ? "Tu bienestar integral, en un solo plan" : "Varias terapias en un solo encuentro"}</p>
             <div style={s("display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px")}>
-              {plans.map((pl) => (
+              {offers.map((pl) => (
                 <A key={pl.name} href={planHref(pl.slug)} cls="hv-glass" css="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:24px;border-radius:20px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.18);color:#FEFAFF">
                   <div>
                     <div style={s(`font-family:${UI};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;opacity:0.75`)}>Experiencia</div>
@@ -172,18 +174,21 @@ export default async function ServicioPage({ params }: Props) {
                 </A>
               ))}
             </div>
+            <p style={s(`margin:24px 0 0;font-family:${UI};font-size:14px`)}>
+              <A href="/experiencias/" cls="hv-gold" css="color:#FEFAFF;border-bottom:1px solid #FDBF3B;padding-bottom:2px">Comparar todas las experiencias →</A>
+            </p>
           </div>
         </section>
       )}
 
       <AuthorCard links />
 
-      <Faq items={[...sv.faqs, ...DATA.commonFaqs]} sub={`sobre ${sv.name}`} />
+      <Faq items={[...sv.faqs, ...DATA.commonFaqs]} sub={`sobre ${sv.name}`} self={serviceHref(sv.slug)} />
 
       <section style={s("padding:100px 24px")}>
         <div style={s("max-width:1180px;margin:0 auto")}>
-          <h2 style={s("margin:0 0 30px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Otras terapias {sv.cat}</h2>
-          <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-bottom:70px")}>
+          {related.length > 0 && <h2 style={s("margin:0 0 30px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Otras terapias {sv.cat}</h2>}
+          <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-bottom:56px")}>
             {related.map((r) => (
               <A key={r.slug} href={serviceHref(r.slug)} cls="card-hover" css="display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:20px;background:#FEFAFF;border:1px solid rgba(17,3,102,0.12);color:#110366">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -192,6 +197,17 @@ export default async function ServicioPage({ params }: Props) {
               </A>
             ))}
           </div>
+          <h2 style={s("margin:0 0 20px;font-weight:400;font-size:clamp(26px,3.4vw,36px)")}>Más terapias en AnamGra</h2>
+          <ul style={s(`list-style:none;margin:0 0 ${posts.length > 0 ? 70 : 0}px;padding:0;display:flex;flex-wrap:wrap;gap:10px;font-family:${UI};font-size:14px`)}>
+            {others.map((x) => (
+              <li key={x.slug}>
+                <A href={serviceHref(x.slug)} cls="hv-lav2" css="display:inline-block;padding:9px 18px;border-radius:999px;border:1px solid rgba(17,3,102,0.2);background:#FEFAFF;color:#110366">{x.name}</A>
+              </li>
+            ))}
+            <li>
+              <A href="/terapias/" cls="hv-purple" css="display:inline-block;padding:9px 18px;color:#110366;border-bottom:1px solid #FDBF3B">Ver todas las terapias →</A>
+            </li>
+          </ul>
           {posts.length > 0 && (
             <>
               <h2 style={s("margin:0 0 30px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Lecturas recomendadas</h2>

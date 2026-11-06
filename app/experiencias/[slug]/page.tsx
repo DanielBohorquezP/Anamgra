@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DATA } from "@/lib/data";
 import { planLd, planMeta } from "@/lib/seo";
-import { A, AuthorCard, Crumbs, CtaBanner, Faq, JsonLd, WA, iconSrc, planHref, s, SCRIPT, UI, serviceHref } from "@/components/ui";
+import { postsForServices, servicesForPlan } from "@/lib/links";
+import { A, AuthorCard, Crumbs, CtaBanner, Faq, JsonLd, WA, iconSrc, linkify, planHref, postHref, s, SCRIPT, UI, serviceHref } from "@/components/ui";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -30,6 +31,8 @@ export default async function ExperienciaPage({ params }: Props) {
     ["Reserva", "Con cita previa y pago anticipado"],
   ];
   const others = DATA.plans.filter((x) => x.slug !== p.slug);
+  const included = servicesForPlan(p);
+  const posts = postsForServices(included.map((x) => x.slug));
 
   return (
     <main>
@@ -42,7 +45,7 @@ export default async function ExperienciaPage({ params }: Props) {
         <img src="/assets/leaves.png" alt="" style={s("position:absolute;bottom:0;right:0;width:min(150px,15vw);pointer-events:none")} />
         <img src="/assets/flowers-l.png" alt="" style={s("position:absolute;bottom:20px;left:0;width:min(120px,13vw);pointer-events:none")} />
         <div style={s("position:relative;max-width:1000px;margin:0 auto")}>
-          <Crumbs mb={40} items={[{ name: "Inicio", href: "/" }, { name: "Experiencias", href: "/#experiencias" }, { name: p.name }]} />
+          <Crumbs mb={40} items={[{ name: "Inicio", href: "/" }, { name: "Experiencias", href: "/experiencias/" }, { name: p.name }]} />
           <div style={s("display:flex;flex-direction:column;align-items:center;text-align:center")}>
             <img src={badge(p.badge)} alt="" style={s("height:72px;width:auto;object-fit:contain;margin-bottom:18px")} />
             <span style={s(`font-family:${UI};font-size:13px;letter-spacing:0.3em;text-transform:uppercase;color:#A56CF0`)}>Experiencia · AnamGra Holistic Therapy</span>
@@ -67,7 +70,7 @@ export default async function ExperienciaPage({ params }: Props) {
 
           <div style={s("margin:28px auto 0;max-width:880px;padding:24px 28px;background:rgba(254,250,255,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;border:1px solid rgba(17,3,102,0.12)")}>
             <h2 style={s(`margin:0 0 10px;font-family:${UI};font-weight:500;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#A56CF0`)}>En resumen</h2>
-            <p style={s("margin:0;font-size:19px;line-height:1.6;text-wrap:pretty")}>{p.answer}</p>
+            <p style={s("margin:0;font-size:19px;line-height:1.6;text-wrap:pretty")}>{linkify(p.answer, new Set(), planHref(p.slug))}</p>
             <p style={s(`margin:14px 0 0;font-family:${UI};font-size:13px;color:rgba(17,3,102,0.7)`)}>
               Diseñada por <A href="#autora" css="color:#110366;border-bottom:1px solid #FDBF3B">Dra. Irina Pérez</A> · Actualizado el <time dateTime={DATA.updated}>{DATA.updatedLabel}</time>
             </p>
@@ -87,7 +90,7 @@ export default async function ExperienciaPage({ params }: Props) {
                   <img src={iconSrc(st.icon)} alt="" width={120} height={130} style={s("width:120px;height:130px;object-fit:contain")} />
                   <h3 style={s("margin:0;font-weight:400;font-size:22px;line-height:1.2")}>{st.name}</h3>
                   <p style={s("margin:0;font-size:16px;line-height:1.5;color:#3A2E80")}>{st.desc}</p>
-                  {st.slug && <A href={serviceHref(st.slug)} css={`font-family:${UI};font-size:12px;letter-spacing:0.04em;border-bottom:1px solid #FDBF3B;padding-bottom:2px`}>Sobre esta terapia →</A>}
+                  {st.slug && <A href={serviceHref(st.slug)} css={`font-family:${UI};font-size:12px;letter-spacing:0.04em;border-bottom:1px solid #FDBF3B;padding-bottom:2px`}>Conoce {st.name} →</A>}
                 </div>
               </li>
             ))}
@@ -152,7 +155,24 @@ export default async function ExperienciaPage({ params }: Props) {
 
       <AuthorCard maxPhoto={260} />
 
-      <Faq items={[...p.faqs, ...DATA.commonFaqs]} sub={`sobre la Experiencia ${p.name}`} />
+      <Faq items={[...p.faqs, ...DATA.commonFaqs]} sub={`sobre la Experiencia ${p.name}`} self={planHref(p.slug)} />
+
+      {posts.length > 0 && (
+        <section style={s("padding:90px 24px 0")}>
+          <div style={s("max-width:1180px;margin:0 auto")}>
+            <h2 style={s("margin:0 0 28px;font-weight:400;font-size:clamp(30px,4vw,44px)")}>Lecturas recomendadas</h2>
+            <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:20px")}>
+              {posts.map((po) => (
+                <A key={po.slug} href={postHref(po.slug)} cls="hv-lav2" css="display:flex;flex-direction:column;gap:10px;padding:26px;border-radius:22px;background:rgba(243,233,252,0.62);color:#110366">
+                  <span style={s(`font-family:${UI};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#A56CF0`)}>{po.cat} · {po.mins} min</span>
+                  <span style={s("font-size:22px;line-height:1.3")}>{po.title}</span>
+                  <span style={s(`font-family:${UI};font-size:13px;border-bottom:1px solid #FDBF3B;align-self:flex-start;padding-bottom:2px`)}>Leer artículo →</span>
+                </A>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <CtaBanner pad="100px 24px 110px" label="Reservar por WhatsApp · 863 651 5147" />
     </main>

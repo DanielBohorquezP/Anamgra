@@ -265,7 +265,7 @@ export const serviceLd = (sv: Svc) => {
         },
       },
       faqNode([...sv.faqs, ...D.commonFaqs]),
-      crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/#terapias`], [sv.name, `${SITE}${path}`]]),
+      crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/terapias/`], [sv.name, `${SITE}${path}`]]),
       webPage(path, title),
     ],
   };
@@ -310,11 +310,71 @@ export const planLd = (p: Plan) => {
         },
       },
       faqNode([...p.faqs, ...D.commonFaqs]),
-      crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/#experiencias`], [`Experiencia ${p.name}`, `${SITE}${path}`]]),
+      crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/experiencias/`], [`Experiencia ${p.name}`, `${SITE}${path}`]]),
       webPage(path, PLAN_TITLES[p.slug]),
     ],
   };
 };
+
+
+/* ---------- Páginas índice (hubs) ---------- */
+export const terapiasMeta = (): Metadata =>
+  meta({
+    title: "Terapias holísticas en Orlando y online: Reiki, masajes y más | AnamGra",
+    description:
+      "Las 11 terapias de AnamGra en Orlando, FL y online: Reiki, reflexología, masaje terapéutico y prenatal, cupping, esencias florales, homeopatía y más. Con cita previa.",
+    path: "/terapias/",
+  });
+
+export const terapiasLd = () => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    businessNode(),
+    personNode(),
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE}/terapias/#page`,
+      url: `${SITE}/terapias/`,
+      name: "Terapias holísticas de AnamGra",
+      inLanguage: "es",
+      isPartOf: { "@id": `${SITE}/#website` },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: D.services.map((x, i) => ({ "@type": "ListItem", position: i + 1, name: x.name, url: `${SITE}/terapias/${x.slug}/` })),
+      },
+    },
+    crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/terapias/`]]),
+  ],
+});
+
+export const experienciasMeta = (): Metadata =>
+  meta({
+    title: "Experiencias de bienestar en Orlando: Integral Premium, Armonía y Renacer | AnamGra",
+    description:
+      "Compara las 3 experiencias de AnamGra: Integral Premium ($165, 90 min), Armonía ($95, 60 min) y Renacer ($85, 60 min). Virtuales o presenciales en Orlando, FL.",
+    path: "/experiencias/",
+  });
+
+export const experienciasLd = () => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    businessNode(),
+    personNode(),
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE}/experiencias/#page`,
+      url: `${SITE}/experiencias/`,
+      name: "Experiencias de bienestar de AnamGra",
+      inLanguage: "es",
+      isPartOf: { "@id": `${SITE}/#website` },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: D.plans.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: `Experiencia ${p.name}`, url: `${SITE}/experiencias/${p.slug}/` })),
+      },
+    },
+    crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/experiencias/`]]),
+  ],
+});
 
 /* ---------- Blog ---------- */
 export const blogMeta = (): Metadata =>
