@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment, type CSSProperties, type ReactNode } from "react";
 import { s, SCRIPT, UI } from "@/lib/s";
 import { DATA } from "@/lib/data";
+import { linkify } from "@/lib/links";
 
 export { s, SCRIPT, UI };
 export const WA = DATA.biz.wa;
@@ -56,7 +57,7 @@ export function Eyebrow({ children, color = "#A56CF0", css = "" }: { children: R
   );
 }
 
-export function Faq({ items, id = "preguntas", title = "Preguntas frecuentes", sub, bg = true, pad = "90px 24px", subSize = "36px" }: {
+export function Faq({ items, id = "preguntas", title = "Preguntas frecuentes", sub, bg = true, pad = "90px 24px", subSize = "36px", self }: {
   items: string[][];
   id?: string;
   title?: string;
@@ -64,7 +65,10 @@ export function Faq({ items, id = "preguntas", title = "Preguntas frecuentes", s
   bg?: boolean;
   pad?: string;
   subSize?: string;
+  /** Ruta de la página actual, para no enlazarse a sí misma en las respuestas. */
+  self?: string;
 }) {
+  const used = new Set<string>();
   return (
     <section id={id} style={s(`padding:${pad};${bg ? "background:rgba(243,233,252,0.62)" : ""}`)}>
       <div style={s("max-width:860px;margin:0 auto")}>
@@ -87,7 +91,7 @@ export function Faq({ items, id = "preguntas", title = "Preguntas frecuentes", s
                   +
                 </span>
               </summary>
-              <p style={s("margin:0;padding:0 0 22px;font-size:18px;line-height:1.6;color:#3A2E80")}>{a}</p>
+              <p style={s("margin:0;padding:0 0 22px;font-size:18px;line-height:1.6;color:#3A2E80")}>{linkify(a, used, self)}</p>
             </details>
           ))}
         </div>
@@ -176,6 +180,4 @@ export function JsonLd({ data }: { data: unknown }) {
 }
 
 export const iconSrc = (n: string) => `/assets/${n}.png`;
-export const serviceHref = (slug: string) => `/terapias/${slug}/`;
-export const planHref = (slug: string) => `/experiencias/${slug}/`;
-export const postHref = (slug: string) => `/blog/${slug}/`;
+export { serviceHref, planHref, postHref, linkify } from "@/lib/links";

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DATA } from "@/lib/data";
 import { postLd, postMeta } from "@/lib/seo";
-import { A, Crumbs, JsonLd, WA, iconSrc, s, SCRIPT, UI, MONO, serviceHref } from "@/components/ui";
+import { A, Crumbs, JsonLd, WA, iconSrc, linkify, planHref, postHref, s, SCRIPT, UI, MONO, serviceHref } from "@/components/ui";
+import { plansForServices, relatedPosts } from "@/lib/links";
 
 type Props = { params: Promise<{ slug: string }> };
 type Cta = { title: string; text: string; bullets: string[]; button: string };
@@ -86,6 +87,10 @@ export default async function ArticuloPage({ params }: Props) {
   if (!p) notFound();
   const a = DATA.author;
   const related = p.related.map((sl) => DATA.services.find((x) => x.slug === sl)).filter((x) => !!x);
+  const plans = plansForServices(p.related);
+  const more = relatedPosts(p, 3);
+  /* Cada terapia o experiencia se enlaza una sola vez dentro del cuerpo del artículo. */
+  const used = new Set<string>();
 
   return (
     <main>
@@ -127,7 +132,7 @@ export default async function ArticuloPage({ params }: Props) {
                   <section>
                     <h2 style={s("margin:0 0 12px;font-weight:400;font-size:clamp(26px,3vw,34px);line-height:1.15;text-wrap:balance")}>{h}</h2>
                     {(ps as string[]).map((t) => (
-                      <p key={t} style={s("margin:0 0 14px;font-size:20px;line-height:1.7;text-wrap:pretty")}>{t}</p>
+                      <p key={t} style={s("margin:0 0 14px;font-size:20px;line-height:1.7;text-wrap:pretty")}>{linkify(t, used)}</p>
                     ))}
                   </section>
                   {i === 1 && <InlineCta cta={p.cta} />}
@@ -161,6 +166,38 @@ export default async function ArticuloPage({ params }: Props) {
                   </A>
                 ))}
               </div>
+            </section>
+
+            {plans.length > 0 && (
+              <section aria-label="Experiencias relacionadas" style={s("margin-top:48px")}>
+                <h2 style={s("margin:0 0 20px;font-weight:400;font-size:30px")}>Experiencias relacionadas</h2>
+                <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px")}>
+                  {plans.map((pl) => (
+                    <A key={pl.slug} href={planHref(pl.slug)} cls="hv-lav2" css="display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 20px;border-radius:18px;border:1.5px solid #110366;background:#FEFAFF;color:#110366">
+                      <span>
+                        <span style={s("display:block;font-size:20px;text-transform:uppercase;line-height:1.15")}>Experiencia {pl.name}</span>
+                        <span style={s(`display:block;font-family:${UI};font-size:13px;color:rgba(17,3,102,0.7);margin-top:4px`)}>{pl.incl}</span>
+                      </span>
+                      <span style={s("font-size:26px;flex-shrink:0")}>${pl.price}</span>
+                    </A>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section aria-label="Sigue leyendo" style={s("margin-top:56px")}>
+              <h2 style={s("margin:0 0 20px;font-weight:400;font-size:30px")}>Sigue leyendo</h2>
+              <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:14px")}>
+                {more.map((po) => (
+                  <A key={po.slug} href={postHref(po.slug)} cls="hv-lav2" css="display:flex;flex-direction:column;gap:8px;padding:20px;border-radius:18px;background:rgba(243,233,252,0.62);color:#110366">
+                    <span style={s(`font-family:${UI};font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#A56CF0`)}>{po.cat} · {po.mins} min</span>
+                    <span style={s("font-size:19px;line-height:1.3")}>{po.title}</span>
+                  </A>
+                ))}
+              </div>
+              <p style={s(`margin:18px 0 0;font-family:${UI};font-size:14px`)}>
+                <A href="/blog/" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:2px">Ver todos los artículos →</A>
+              </p>
             </section>
 
             <section id="autora" aria-label="Sobre la autora" className="post-author-bottom" style={s("margin-top:56px;grid-template-columns:96px 1fr;gap:22px;align-items:start;padding:28px;border-radius:24px;background:rgba(243,233,252,0.62)")}>

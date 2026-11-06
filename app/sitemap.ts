@@ -6,6 +6,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     u("/", D.updated, 1.0),
     u("/irina-perez/", "2026-10-22", 0.8),
+    u("/terapias/", D.updated, 0.9),
+    u("/experiencias/", D.updated, 0.9),
     u("/blog/", D.updated, 0.7),
     ...D.services.map((x) => u(`/terapias/${x.slug}/`, D.updated, 0.9)),
     ...D.plans.map((x) => u(`/experiencias/${x.slug}/`, D.updated, 0.9)),

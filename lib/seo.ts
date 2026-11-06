@@ -54,8 +54,8 @@ const businessNode = (virtual = true) => ({
   priceRange: "$85–$165",
   address: { "@type": "PostalAddress", addressLocality: D.biz.city, addressRegion: D.biz.region, addressCountry: D.biz.country },
   areaServed: virtual
-    ? [{ "@type": "City", name: "Orlando" }, { "@type": "Country", name: "Estados Unidos (atención virtual)" }]
-    : [{ "@type": "City", name: "Orlando" }],
+    ? [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }, { "@type": "Country", name: "Estados Unidos (atención virtual)" }]
+    : [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }],
   sameAs: IG,
   founder: { "@id": AUTHOR },
 });
@@ -94,9 +94,9 @@ const webPage = (path: string, name: string) => ({
 /* ---------- Inicio ---------- */
 export const homeMeta = (): Metadata => ({
   ...meta({
-    title: "Terapias holísticas y Reiki en Orlando, FL | AnamGra",
+    title: "Masaje terapéutico y Reiki en Orlando y Davenport | AnamGra",
     description:
-      "Reiki, reflexología, esencias florales, homeopatía y masajes con la Dra. Irina Pérez en Orlando, FL y online. Agenda tu cita por WhatsApp.",
+      "Reiki, reflexología, esencias florales, homeopatía y masaje terapéutico con la Dra. Irina Pérez en Orlando, Davenport y online. Agenda tu cita por WhatsApp.",
     path: "/",
     ogTitle: "AnamGra Holistic Therapy · Orlando, FL",
     ogDescription: "Donde el amor del alma acompaña tu camino hacia el bienestar.",
@@ -118,7 +118,7 @@ export const homeLd = () => ({
       logo: `${SITE}/assets/logo.png`,
       priceRange: "$85–$165",
       address: { "@type": "PostalAddress", addressLocality: "Orlando", addressRegion: "FL", addressCountry: "US" },
-      areaServed: [{ "@type": "City", name: "Orlando" }],
+      areaServed: [{ "@type": "City", name: "Orlando" }, { "@type": "City", name: "Davenport" }],
       sameAs: IG,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
@@ -211,12 +211,12 @@ const SERVICE_SEO: Record<string, { title: string; description: string }> = {
     description: "Reflexología podal presencial en Orlando, FL: masaje de puntos del pie para relajación y bienestar general. 60 minutos con cita previa.",
   },
   "masaje-terapeutico": {
-    title: "Masaje terapéutico en Orlando, FL: alivia tensión | AnamGra",
-    description: "Masaje terapéutico en Orlando, FL para aliviar tensión muscular y mejorar la movilidad. Sesiones personalizadas con cita previa.",
+    title: "Masaje terapéutico en Orlando y Davenport, FL | AnamGra",
+    description: "Masaje terapéutico en Orlando y Davenport, FL para aliviar tensión muscular y mejorar la movilidad. Sesiones personalizadas con cita previa.",
   },
   "masaje-prenatal": {
-    title: "Masaje prenatal en Orlando, FL | AnamGra",
-    description: "Masaje prenatal en Orlando, FL: suave y especializado para aliviar el cansancio y las molestias del embarazo. Consulta con tu médico y agenda.",
+    title: "Masaje prenatal en Orlando y Davenport, FL | AnamGra",
+    description: "Masaje prenatal en Orlando y Davenport, FL: suave y especializado para aliviar el cansancio y las molestias del embarazo. Consulta con tu médico y agenda.",
   },
   "piedras-calientes": {
     title: "Masaje con piedras calientes en Orlando, FL | AnamGra",
@@ -265,7 +265,7 @@ export const serviceLd = (sv: Svc) => {
         },
       },
       faqNode([...sv.faqs, ...D.commonFaqs]),
-      crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/#terapias`], [sv.name, `${SITE}${path}`]]),
+      crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/terapias/`], [sv.name, `${SITE}${path}`]]),
       webPage(path, title),
     ],
   };
@@ -310,11 +310,71 @@ export const planLd = (p: Plan) => {
         },
       },
       faqNode([...p.faqs, ...D.commonFaqs]),
-      crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/#experiencias`], [`Experiencia ${p.name}`, `${SITE}${path}`]]),
+      crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/experiencias/`], [`Experiencia ${p.name}`, `${SITE}${path}`]]),
       webPage(path, PLAN_TITLES[p.slug]),
     ],
   };
 };
+
+
+/* ---------- Páginas índice (hubs) ---------- */
+export const terapiasMeta = (): Metadata =>
+  meta({
+    title: "Terapias holísticas en Orlando y online: Reiki, masajes y más | AnamGra",
+    description:
+      "Las 11 terapias de AnamGra en Orlando, FL y online: Reiki, reflexología, masaje terapéutico y prenatal, cupping, esencias florales, homeopatía y más. Con cita previa.",
+    path: "/terapias/",
+  });
+
+export const terapiasLd = () => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    businessNode(),
+    personNode(),
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE}/terapias/#page`,
+      url: `${SITE}/terapias/`,
+      name: "Terapias holísticas de AnamGra",
+      inLanguage: "es",
+      isPartOf: { "@id": `${SITE}/#website` },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: D.services.map((x, i) => ({ "@type": "ListItem", position: i + 1, name: x.name, url: `${SITE}/terapias/${x.slug}/` })),
+      },
+    },
+    crumbs([["Inicio", `${SITE}/`], ["Terapias", `${SITE}/terapias/`]]),
+  ],
+});
+
+export const experienciasMeta = (): Metadata =>
+  meta({
+    title: "Experiencias de bienestar en Orlando: Integral Premium, Armonía y Renacer | AnamGra",
+    description:
+      "Compara las 3 experiencias de AnamGra: Integral Premium ($165, 90 min), Armonía ($95, 60 min) y Renacer ($85, 60 min). Virtuales o presenciales en Orlando, FL.",
+    path: "/experiencias/",
+  });
+
+export const experienciasLd = () => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    businessNode(),
+    personNode(),
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE}/experiencias/#page`,
+      url: `${SITE}/experiencias/`,
+      name: "Experiencias de bienestar de AnamGra",
+      inLanguage: "es",
+      isPartOf: { "@id": `${SITE}/#website` },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: D.plans.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: `Experiencia ${p.name}`, url: `${SITE}/experiencias/${p.slug}/` })),
+      },
+    },
+    crumbs([["Inicio", `${SITE}/`], ["Experiencias", `${SITE}/experiencias/`]]),
+  ],
+});
 
 /* ---------- Blog ---------- */
 export const blogMeta = (): Metadata =>

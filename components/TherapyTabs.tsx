@@ -50,28 +50,40 @@ export default function TherapyTabs({ groups }: { groups: Group[] }) {
           ))}
         </div>
       </div>
-      <div style={s(`display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;opacity:${fading ? 0 : 1};transition:opacity .3s`)}>
-        {groups[cat].items.map((t) => (
-          <article
-            key={t.name}
-            className="card-hover"
-            style={s(
-              "display:flex;flex-direction:column;background:rgba(254,250,255,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:24px;padding:28px;box-shadow:rgba(17,3,102,0.04) 0px 0px 0px 1px, rgba(17,3,102,0.04) 0px 3px 3px -1.5px, rgba(17,3,102,0.05) 0px 12px 12px -6px, rgba(17,3,102,0.05) 0px 24px 24px -12px",
-            )}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={t.icon} alt="" width={104} height={116} style={s("width:104px;height:116px;object-fit:contain;margin-bottom:18px")} />
-            <h3 style={s("margin:0 0 10px;font-weight:400;font-size:24px;letter-spacing:0.02em;text-transform:uppercase")}>
-              <A href={t.href} css="color:#110366">{t.name}</A>
-            </h3>
-            <p style={s("margin:0 0 22px;font-size:17px;line-height:1.55;color:#3A2E80;text-wrap:pretty;flex:1")}>{t.desc}</p>
-            <div style={s(`display:flex;flex-wrap:wrap;gap:18px;font-family:${UI};font-size:13px;letter-spacing:0.04em`)}>
-              <A href={t.href} cls="hv-purple" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:3px">Conocer más →</A>
-              <A href={WA} cls="hv-purple" css="color:rgba(17,3,102,0.7);padding-bottom:3px">Agendar</A>
-            </div>
-          </article>
-        ))}
-      </div>
+      {/* Se renderizan TODAS las categorías (las inactivas ocultas) para que los enlaces a las 11 terapias estén en el HTML inicial. */}
+      {groups.map((g, gi) => (
+        <div
+          key={g.label}
+          role="tabpanel"
+          aria-label={g.label}
+          hidden={gi !== cat}
+          style={s(`display:${gi === cat ? "grid" : "none"};grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;opacity:${gi === cat && fading ? 0 : 1};transition:opacity .3s`)}
+        >
+          {g.items.map((t) => (
+            <article
+              key={t.name}
+              className="card-hover"
+              style={s(
+                "display:flex;flex-direction:column;background:rgba(254,250,255,0.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:24px;padding:28px;box-shadow:rgba(17,3,102,0.04) 0px 0px 0px 1px, rgba(17,3,102,0.04) 0px 3px 3px -1.5px, rgba(17,3,102,0.05) 0px 12px 12px -6px, rgba(17,3,102,0.05) 0px 24px 24px -12px",
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={t.icon} alt="" width={104} height={116} style={s("width:104px;height:116px;object-fit:contain;margin-bottom:18px")} />
+              <h3 style={s("margin:0 0 10px;font-weight:400;font-size:24px;letter-spacing:0.02em;text-transform:uppercase")}>
+                <A href={t.href} css="color:#110366">{t.name}</A>
+              </h3>
+              <p style={s("margin:0 0 22px;font-size:17px;line-height:1.55;color:#3A2E80;text-wrap:pretty;flex:1")}>{t.desc}</p>
+              <div style={s(`display:flex;flex-wrap:wrap;gap:18px;font-family:${UI};font-size:13px;letter-spacing:0.04em`)}>
+                <A href={t.href} cls="hv-purple" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:3px">Conocer {t.name} →</A>
+                <A href={WA} cls="hv-purple" css="color:rgba(17,3,102,0.7);padding-bottom:3px">Agendar</A>
+              </div>
+            </article>
+          ))}
+        </div>
+      ))}
+      <p style={s(`margin:44px 0 0;text-align:center;font-family:${UI};font-size:14px;letter-spacing:0.04em`)}>
+        <A href="/terapias/" cls="hv-purple" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:3px">Ver las {groups.reduce((n, g) => n + g.items.length, 0)} terapias →</A>
+      </p>
     </>
   );
 }

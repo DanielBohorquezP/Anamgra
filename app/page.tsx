@@ -154,7 +154,7 @@ export default function Home() {
             </div>
             <div style={s("display:flex;flex-wrap:wrap;gap:36px;margin-top:32px")}>
               <div><div style={s("font-size:44px;line-height:1")}>20+</div><div style={s(`font-family:${UI};font-size:13px;letter-spacing:0.06em;color:#3A2E80;margin-top:6px`)}>años de experiencia</div></div>
-              <div><div style={s("font-size:44px;line-height:1")}>11</div><div style={s(`font-family:${UI};font-size:13px;letter-spacing:0.06em;color:#3A2E80;margin-top:6px`)}>terapias integradas</div></div>
+              <div><div style={s("font-size:44px;line-height:1")}>11</div><A href="/terapias/" css={`display:block;font-family:${UI};font-size:13px;letter-spacing:0.06em;color:#3A2E80;margin-top:6px;border-bottom:1px solid #FDBF3B`}>terapias integradas</A></div>
             </div>
             <div style={s(`display:flex;flex-wrap:wrap;gap:14px;margin-top:36px;font-family:${UI}`)}>
               <A href="/irina-perez/" pill cls="btn-navy" css="display:inline-flex;align-items:center;gap:10px;background:#110366;color:#FEFAFF;padding:15px 30px;border-radius:999px;font-size:14px;letter-spacing:0.04em">Conoce su historia <span>→</span></A>
@@ -204,7 +204,9 @@ export default function Home() {
                         <img src={iconSrc(st.icon)} alt="" width={52} height={52} style={s("width:52px;height:52px;object-fit:contain")} />
                       </div>
                       <div>
-                        <div style={s("font-size:18px;line-height:1.2")}>{st.name}</div>
+                        <div style={s("font-size:18px;line-height:1.2")}>
+                          {st.slug ? <A href={serviceHref(st.slug)} css={`color:${pl.fg};border-bottom:1px solid #FDBF3B`}>{st.name}</A> : st.name}
+                        </div>
                         <div style={s(`font-family:${UI};font-size:13px;line-height:1.4;opacity:0.78;margin-top:2px`)}>{st.desc}</div>
                       </div>
                     </div>
@@ -217,12 +219,15 @@ export default function Home() {
                   </div>
                   <div style={s("display:flex;flex-direction:column;align-items:flex-end;gap:10px")}>
                     <A href={WA} pill css={`display:inline-flex;align-items:center;padding:13px 22px;border-radius:999px;font-family:${UI};font-size:13px;letter-spacing:0.04em;background:${pl.btnBg};color:${pl.btnFg}`}>Reservar</A>
-                    <A href={planHref(pl.slug)} css={`font-family:${UI};font-size:12px;letter-spacing:0.04em;color:${pl.fg};border-bottom:1px solid #FDBF3B;padding-bottom:2px`}>Ver detalles →</A>
+                    <A href={planHref(pl.slug)} css={`font-family:${UI};font-size:12px;letter-spacing:0.04em;color:${pl.fg};border-bottom:1px solid #FDBF3B;padding-bottom:2px`}>Ver detalles de {pl.name} →</A>
                   </div>
                 </div>
               </article>
             ))}
           </div>
+          <p style={s(`margin:44px 0 0;text-align:center;font-family:${UI};font-size:14px;letter-spacing:0.04em`)}>
+            <A href="/experiencias/" cls="hv-purple" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:3px">Comparar las 3 experiencias →</A>
+          </p>
         </div>
       </section>
 
@@ -289,7 +294,7 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <Faq items={DATA.homeFaqs} bg={false} pad="100px 24px 0" title="Preguntas frecuentes" sub="Todo lo que necesitas saber" subSize="clamp(30px,3.6vw,42px)" />
+      <Faq items={DATA.homeFaqs} self="/" bg={false} pad="100px 24px 0" title="Preguntas frecuentes" sub="Todo lo que necesitas saber" subSize="clamp(30px,3.6vw,42px)" />
 
       {/* CONTACTO */}
       <section id="contacto" style={s("position:relative;padding:110px 24px")}>

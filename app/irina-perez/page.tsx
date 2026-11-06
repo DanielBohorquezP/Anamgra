@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { irinaLd, irinaMeta } from "@/lib/seo";
-import { A, Eyebrow, JsonLd, WA, s, SCRIPT, UI } from "@/components/ui";
+import { DATA } from "@/lib/data";
+import { A, Eyebrow, JsonLd, WA, linkify, postHref, s, SCRIPT, UI } from "@/components/ui";
 
 export const metadata: Metadata = irinaMeta();
 
@@ -40,7 +41,11 @@ function Timeline({ title, rows }: { title: string; rows: string[][] }) {
   );
 }
 
+const latest = [...DATA.posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+
 export default function IrinaPage() {
+  const introLinks = new Set<string>();
+  const cardLinks = new Set<string>();
   return (
     <main>
       <JsonLd data={irinaLd()} />
@@ -78,7 +83,7 @@ export default function IrinaPage() {
       <section style={s("position:relative;padding:40px 24px 90px")}>
         <div style={{ ...s("max-width:760px;margin:0 auto"), ...s(colStyle) }}>
           <p style={s(P)}>A lo largo de más de 20 años de experiencia acompañando a personas en sus procesos de bienestar, he integrado conocimientos médicos y terapias holísticas que me permiten ofrecer una mirada individual, cercana y respetuosa de cada ser humano.</p>
-          <p style={s(P)}>Mi formación y experiencia abarcan diferentes herramientas terapéuticas, entre ellas Reiki, terapia con poliedros, homeopatía, esencias florales, terapia con Ángeles, reflexología podal, masaje terapéutico y masaje prenatal.</p>
+          <p style={s(P)}>{linkify("Mi formación y experiencia abarcan diferentes herramientas terapéuticas, entre ellas Reiki, terapia con poliedros, homeopatía, esencias florales, terapia con Ángeles, reflexología podal, masaje terapéutico y masaje prenatal.", introLinks)}</p>
           <p style={s(P)}>Creo que cada persona tiene una historia única y que el camino hacia el bienestar comienza cuando aprendemos a escucharnos, reconocemos nuestras necesidades y abrimos espacio para cuidarnos de una manera más consciente.</p>
           <p style={s(P)}>Hoy, a través de AnamGra Holistic Therapies, pongo mi experiencia, sensibilidad y vocación de servicio al encuentro de quienes desean regalarse un espacio de armonía, conexión y bienestar integral.</p>
         </div>
@@ -135,7 +140,7 @@ export default function IrinaPage() {
             ].map(([t, d]) => (
               <article key={t} style={s("background:#FEFAFF;border-radius:28px;padding:36px 32px;display:flex;flex-direction:column;gap:14px")}>
                 <span style={s(`font-family:${SCRIPT};font-size:40px;line-height:1;color:#A56CF0`)}>{t}</span>
-                <p style={s("margin:0;font-size:18px;line-height:1.6;color:#3A2E80")}>{d}</p>
+                <p style={s("margin:0;font-size:18px;line-height:1.6;color:#3A2E80")}>{linkify(d, cardLinks)}</p>
               </article>
             ))}
           </div>
@@ -159,13 +164,35 @@ export default function IrinaPage() {
         </div>
       </section>
 
+      <section style={s("position:relative;padding:0 24px 100px")}>
+        <div style={s("max-width:1180px;margin:0 auto")}>
+          <header style={s("text-align:center;margin-bottom:40px")}>
+            <Eyebrow>Del blog</Eyebrow>
+            <h2 style={s(h2Css)}>Artículos de la Dra. Irina</h2>
+          </header>
+          <div style={s("display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:20px")}>
+            {latest.map((p) => (
+              <A key={p.slug} href={postHref(p.slug)} cls="hv-lav2" css="display:flex;flex-direction:column;gap:10px;padding:26px;border-radius:22px;background:rgba(243,233,252,0.62);color:#110366">
+                <span style={s(`font-family:${UI};font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#A56CF0`)}>{p.cat} · {p.mins} min</span>
+                <span style={s("font-size:22px;line-height:1.3")}>{p.title}</span>
+                <span style={s(`font-family:${UI};font-size:13px;border-bottom:1px solid #FDBF3B;align-self:flex-start;padding-bottom:2px`)}>Leer artículo →</span>
+              </A>
+            ))}
+          </div>
+          <p style={s(`margin:28px 0 0;text-align:center;font-family:${UI};font-size:14px`)}>
+            <A href="/blog/" css="color:#110366;border-bottom:1px solid #FDBF3B;padding-bottom:2px">Ver todos los artículos →</A>
+          </p>
+        </div>
+      </section>
+
       <section style={s("position:relative;padding:20px 24px 120px")}>
         <div style={s("max-width:980px;margin:0 auto;background:#110366;color:#FEFAFF;border-radius:40px;padding:64px 40px;text-align:center")}>
           <p style={s(`margin:0;font-family:${SCRIPT};font-size:clamp(30px,3.8vw,44px);color:#FDBF3B`)}>Mi filosofía es sencilla</p>
           <h2 style={s("margin:10px auto 0;max-width:720px;font-weight:400;font-size:clamp(28px,3.6vw,42px);line-height:1.25;text-wrap:balance")}>Cuidar de ti de manera integral, honrando tu historia, respetando tu individualidad y acompañándote con amor.</h2>
           <div style={s(`display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px;font-family:${UI}`)}>
             <A href={WA} pill cls="btn-gold" css="display:inline-flex;align-items:center;gap:10px;background:#FDBF3B;color:#110366;padding:16px 32px;border-radius:999px;font-size:14px;letter-spacing:0.04em">Agenda tu sesión <span>→</span></A>
-            <A href="/#terapias" pill cls="btn-ghost-light" css="display:inline-flex;align-items:center;padding:16px 32px;border-radius:999px;border:1px solid rgba(254,250,255,0.35);color:#FEFAFF;font-size:14px;letter-spacing:0.04em">Ver terapias</A>
+            <A href="/terapias/" pill cls="btn-ghost-light" css="display:inline-flex;align-items:center;padding:16px 32px;border-radius:999px;border:1px solid rgba(254,250,255,0.35);color:#FEFAFF;font-size:14px;letter-spacing:0.04em">Ver terapias</A>
+            <A href="/experiencias/" pill cls="btn-ghost-light" css="display:inline-flex;align-items:center;padding:16px 32px;border-radius:999px;border:1px solid rgba(254,250,255,0.35);color:#FEFAFF;font-size:14px;letter-spacing:0.04em">Ver experiencias</A>
           </div>
         </div>
       </section>
